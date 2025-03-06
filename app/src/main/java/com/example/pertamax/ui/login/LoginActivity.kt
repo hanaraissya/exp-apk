@@ -3,12 +3,15 @@ package com.example.pertamax.ui.login
 import android.view.View
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.addTextChangedListener
 import com.example.pertamax.MainActivity
 import com.example.pertamax.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -22,6 +25,16 @@ class LoginActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.buttonLogin)
         val editTxt = findViewById<EditText>(R.id.editTextLoginPassword)
         val toggleBtn = findViewById<ImageView>(R.id.imageViewTogglePassword)
+
+        // Set up Toolbar as ActionBar
+        val toolbar: Toolbar = findViewById(R.id.loginToolbar)
+        setSupportActionBar(toolbar)
+
+        // Set up LoginButton
+        loginButton.isEnabled = false
+        editTxt.addTextChangedListener { text ->
+            loginButton.isEnabled = text?.length == 6
+        }
 
         // Handle Toggle Button
         toggleBtn.setOnClickListener {

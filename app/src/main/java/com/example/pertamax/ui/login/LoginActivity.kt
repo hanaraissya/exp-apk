@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import com.example.pertamax.MainActivity
 import com.example.pertamax.R
+import com.example.pertamax.utils.AlertUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class LoginActivity : AppCompatActivity() {
@@ -43,10 +44,6 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
             onLoginBtnClick(it)
-            // After login, move to MainActivity
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish() // Close LoginActivity
         }
 
     }
@@ -55,10 +52,13 @@ class LoginActivity : AppCompatActivity() {
         val inputPassword = findViewById<EditText>(R.id.editTextLoginPassword)
         val password = inputPassword.text.toString().trim()
 
-        if (password.isEmpty()) {
-            inputPassword.error = "Password cannot be empty"
-//            Toast.makeText(requireContext(), "Password is required!", Toast.LENGTH_SHORT).show()
+        if (password == "123456") {
+            AlertUtils.showErrorDialog(this, "Password tidak sesuai, silakan dicoba kembali.")
         } else {
+            // After login, move to MainActivity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish() // Close LoginActivity
             // Show success message
 //            Toast.makeText(requireContext(), "Password Entered!, $password", Toast.LENGTH_SHORT).show()
 

@@ -28,7 +28,7 @@ object AlertUtils {
         if (window != null) {
             val params = window.attributes
             params.gravity = Gravity.TOP
-            params.y = 200 // Adjust distance from the top (in pixels)
+            params.y = 100 // Adjust distance from the top (in pixels)
             window.attributes = params
 
             // Make background transparent

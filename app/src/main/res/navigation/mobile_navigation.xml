@@ -22,4 +22,10 @@
         android:name="com.example.pertamax.ui.notifications.NotificationsFragment"
         android:label=""
         tools:layout="@layout/fragment_notifications" />
+
+    <activity
+        android:id="@+id/navigation_login"
+        android:name="com.example.pertamax.ui.login.LoginActivity"
+        android:label="Logout"
+        tools:layout="@layout/activity_login" />
 </navigation>

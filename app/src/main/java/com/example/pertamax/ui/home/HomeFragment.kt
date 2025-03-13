@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
         val adapter = IconAdapter(icons)
         binding.iconRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3) // 3 Columns
         binding.iconRecyclerView.adapter = adapter
-        binding.iconRecyclerView.addItemDecoration(GridSpacingItemDecoration(128,16))
+        binding.iconRecyclerView.addItemDecoration(GridSpacingItemDecoration(48,32))
 
         return root
     }

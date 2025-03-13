@@ -1,47 +1,53 @@
 package com.example.pertamax.ui.splashscreen
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
-import androidx.appcompat.app.AppCompatActivity
-import com.example.pertamax.MainActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.pertamax.R
-import com.example.pertamax.ui.login.LoginActivity
 
-class SplashActivity : AppCompatActivity() {
+class SplashFragment : Fragment() {
 
-    private val splashDuration = 3000L // Total 10 seconds
-    private val logoOnlyDuration = 1000L // First 5 seconds
+    private val splashDuration = 3000L // Total 3 seconds
+    private val logoOnlyDuration = 1000L // First 1 second
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_splash, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Find views
-        val progressBar = findViewById<View>(R.id.progress_bar)
-        val progressWrapper = findViewById<View>(R.id.progress_wrapper)
-        val overlay = findViewById<View>(R.id.overlay)
+        val progressBar = view.findViewById<View>(R.id.progress_bar)
+        val progressWrapper = view.findViewById<View>(R.id.progress_wrapper)
+        val overlay = view.findViewById<View>(R.id.overlay)
 
         // Initially hide loading and overlay
         progressWrapper.visibility = View.GONE
         overlay.visibility = View.GONE
 
-        // Show loading and overlay after first 3 seconds
+        // Show loading and overlay after first second
         Handler(Looper.getMainLooper()).postDelayed({
             progressWrapper.visibility = View.VISIBLE
             startRotatingAnimation(progressBar)
             overlay.visibility = View.VISIBLE
         }, logoOnlyDuration)
 
-        // Move to MainActivity after 7 seconds
+        // Move to LoginFragment after 3 seconds
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            if (isAdded && findNavController().currentDestination?.id == R.id.splashFragment) {
+                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            }
         }, splashDuration)
     }
 
@@ -57,5 +63,4 @@ class SplashActivity : AppCompatActivity() {
         }
         view.startAnimation(rotateAnimation)
     }
-
 }

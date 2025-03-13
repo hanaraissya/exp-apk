@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.pertamax.MainActivity
 import com.example.pertamax.R
 import com.example.pertamax.databinding.FragmentHomeBinding
 
@@ -22,6 +23,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Show Bottom Navigation and Action Bar
+        (activity as? MainActivity)?.showBottomNav()
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)

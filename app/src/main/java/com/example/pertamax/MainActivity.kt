@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 showBottomNav()
             } else {
                 hideBottomNav()
+                supportActionBar?.hide()
             }
         }
     }
@@ -116,11 +117,9 @@ class MainActivity : AppCompatActivity() {
     /** Show/Hide Bottom Navigation & Action Bar */
     fun showBottomNav() {
         binding.navView.visibility = View.VISIBLE
-        supportActionBar?.show()
     }
 
     private fun hideBottomNav() {
         binding.navView.visibility = View.GONE
-        supportActionBar?.hide()
     }
 }

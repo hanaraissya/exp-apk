@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <!-- Topbar -->
+    <include layout="@layout/toolbar_onboard"/>
+
     <!-- Background image or logo -->
     <ImageView
         android:id="@+id/splash_logo"

@@ -12,8 +12,12 @@
     <color name="blue_500">#2192EB</color>
     <color name="blue_600">#1078CA</color>
     <color name="blue_700">#0051A0</color>
+    <color name="gray_100">#E6E6E6</color>
     <color name="gray_200">#B5B6B6</color>
     <color name="gray_300">#929393</color>
     <color name="gray_600">#666666</color>
     <color name="red_500">#E84040</color>
+    <color name="colorNavBackground">#FFFFFF</color> <!-- Navbar Background -->
+    <color name="colorNavSelected">#0051A0</color> <!-- Selected Item -->
+    <color name="colorNavUnselected">#D3D4D4</color> <!-- Unselected Item -->
 </resources>

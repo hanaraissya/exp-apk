@@ -2,6 +2,7 @@ package com.example.pertamax
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var toolbar: View
     private var isFirstLaunch = true // Prevents unnecessary re-navigation to SplashFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,22 +25,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController = findNavController(R.id.nav_host_fragment_activity_main)
-
         setupNavigation()
+        setupToolbar()
         setupDestinationListener()
         setupBackPressHandler()
     }
 
-    /** Setup Bottom Navigation & Action Bar */
+    /** Initialize Navigation Components */
     private fun setupNavigation() {
+        navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_notifications, R.id.navigation_home, R.id.navigation_dashboard)
+            setOf(R.id.navigation_home, R.id.navigation_notifications, R.id.navigation_dashboard)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
-        //Ensure SplashFragment is only loaded on the first launch
         if (isFirstLaunch) {
             isFirstLaunch = false
             navController.navigate(R.id.splashFragment)
@@ -54,7 +55,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /** Show or Hide Bottom Nav & Action Bar based on the current destination */
+    /** Setup Toolbar & QR Code Click Listener */
+    private fun setupToolbar() {
+        toolbar = findViewById(R.id.home_toolbar)
+        val qrIcon = toolbar.findViewById<ImageView>(R.id.toolbar_qr_icon)
+        qrIcon.setOnClickListener { navController.navigate(R.id.loginFragment) }
+    }
+
+    /** Show or Hide Bottom Nav & Toolbar based on the current destination */
     private fun setupDestinationListener() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val shouldShowNavBar = destination.id in setOf(
@@ -62,15 +70,17 @@ class MainActivity : AppCompatActivity() {
             )
 
             if (shouldShowNavBar) {
+                showToolbar(true)
                 showBottomNav()
             } else {
                 hideBottomNav()
+                showToolbar(false)
                 supportActionBar?.hide()
             }
         }
     }
 
-    /** Handle Back Press: Prevent back navigation on certain fragments */
+    /** Handle Back Press Behavior */
     private fun setupBackPressHandler() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -89,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    /** Handle Navigation Requests */
+    /** Navigate to Selected Destination */
     private fun navigateToDestination(itemId: Int): Boolean {
         if (navController.currentDestination?.id != itemId) {
             navController.navigate(itemId)
@@ -97,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    /** Perform Logout & Navigate to Login */
+    /** Handle Logout Process */
     private fun performLogout() {
         clearUserSession()
         navigateAndClearBackStack(R.id.loginFragment)
@@ -114,12 +124,8 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(destinationId, null, navOptions)
     }
 
-    /** Show/Hide Bottom Navigation & Action Bar */
-    fun showBottomNav() {
-        binding.navView.visibility = View.VISIBLE
-    }
-
-    private fun hideBottomNav() {
-        binding.navView.visibility = View.GONE
-    }
+    /** Show/Hide Bottom Navigation & Toolbar */
+    private fun showBottomNav() { binding.navView.visibility = View.VISIBLE }
+    private fun hideBottomNav() { binding.navView.visibility = View.GONE }
+    private fun showToolbar(isVisible: Boolean) { toolbar.visibility = if (isVisible) View.VISIBLE else View.GONE }
 }

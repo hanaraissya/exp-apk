@@ -24,7 +24,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Show Bottom Navigation and Action Bar
-        (activity as? MainActivity)?.showBottomNav()
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)

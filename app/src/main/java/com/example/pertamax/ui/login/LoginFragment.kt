@@ -60,10 +60,10 @@ class LoginFragment : Fragment() {
     private fun onToggleBtnClick(editText: EditText, toggleButton: ImageView) {
         if (editText.transformationMethod is android.text.method.PasswordTransformationMethod) {
             editText.transformationMethod = null
-            toggleButton.setImageResource(R.drawable.eye_off)
+            toggleButton.setImageResource(R.drawable.ic_eye_off)
         } else {
             editText.transformationMethod = android.text.method.PasswordTransformationMethod.getInstance()
-            toggleButton.setImageResource(R.drawable.eye_on)
+            toggleButton.setImageResource(R.drawable.ic_eye_on)
         }
         editText.setSelection(editText.text.length) // Keep cursor at the end
     }

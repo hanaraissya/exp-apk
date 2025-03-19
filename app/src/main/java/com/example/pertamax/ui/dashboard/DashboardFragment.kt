@@ -9,13 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.pertamax.databinding.FragmentDashboardBinding
-import androidx.navigation.fragment.findNavController
 import com.example.pertamax.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import android.graphics.drawable.GradientDrawable
-import android.text.InputType
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import android.text.method.PasswordTransformationMethod
 
 class DashboardFragment : Fragment() {
@@ -76,12 +72,12 @@ class DashboardFragment : Fragment() {
             // Show password
             Toast.makeText(requireContext(), "SHOW PASSWORD", Toast.LENGTH_SHORT).show()
             editText.transformationMethod = null
-            toggleButton.setImageResource(R.drawable.eye_off)
+            toggleButton.setImageResource(R.drawable.ic_eye_off)
         } else {
             // Hide password
             Toast.makeText(requireContext(), "HIDE", Toast.LENGTH_SHORT).show()
             editText.transformationMethod = PasswordTransformationMethod.getInstance()
-            toggleButton.setImageResource(R.drawable.eye_on)
+            toggleButton.setImageResource(R.drawable.ic_eye_on)
         }
         editText.setSelection(editText.text.length) // Keep cursor at the end
     }

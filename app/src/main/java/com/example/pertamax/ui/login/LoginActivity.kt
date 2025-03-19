@@ -1,21 +1,16 @@
 package com.example.pertamax.ui.login
 
-import android.view.View
-import android.content.Intent
 import android.os.Bundle
-import android.text.TextWatcher
-import android.text.method.PasswordTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
-import com.example.pertamax.MainActivity
 import com.example.pertamax.R
 import com.example.pertamax.utils.AlertUtils
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.content.Intent
+import android.text.method.PasswordTransformationMethod
+import com.example.pertamax.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,11 +22,7 @@ class LoginActivity : AppCompatActivity() {
         val editTxt = findViewById<EditText>(R.id.editTextLoginPassword)
         val toggleBtn = findViewById<ImageView>(R.id.imageViewTogglePassword)
 
-        // Set up Toolbar as ActionBar
-        val toolbar: Toolbar = findViewById(R.id.loginToolbar)
-        setSupportActionBar(toolbar)
-
-        // Set up LoginButton
+        // Disable login button initially
         loginButton.isEnabled = false
         editTxt.addTextChangedListener { text ->
             loginButton.isEnabled = text?.length == 6
@@ -43,47 +34,33 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
-            onLoginBtnClick(it)
+            onLoginBtnClick()
         }
-
     }
 
-    private fun onLoginBtnClick(view: View) {
+    private fun onLoginBtnClick() {
         val inputPassword = findViewById<EditText>(R.id.editTextLoginPassword)
         val password = inputPassword.text.toString().trim()
 
         if (password == "123456") {
             AlertUtils.showErrorDialog(this, "Password tidak sesuai, silakan dicoba kembali.")
         } else {
-            // After login, move to MainActivity
+            inputPassword?.text?.clear()
+            // Navigate to HomeActivity after login
             val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            finish() // Close LoginActivity
-            // Show success message
-//            Toast.makeText(requireContext(), "Password Entered!, $password", Toast.LENGTH_SHORT).show()
-
-            // Switch tab to Notifications
-//            val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
-//            bottomNavView.selectedItemId = R.id.navigation_notifications
-
-            // Clear input field after switching
-            inputPassword.text.clear()
         }
     }
 
     private fun onToggleBtnClick(editText: EditText, toggleButton: ImageView) {
         if (editText.transformationMethod is PasswordTransformationMethod) {
-            // Show password
-//            Toast.makeText(requireContext(), "SHOW PASSWORD", Toast.LENGTH_SHORT).show()
             editText.transformationMethod = null
-            toggleButton.setImageResource(R.drawable.eye_off)
+            toggleButton.setImageResource(R.drawable.ic_eye_off)
         } else {
-            // Hide password
-//            Toast.makeText(requireContext(), "HIDE", Toast.LENGTH_SHORT).show()
             editText.transformationMethod = PasswordTransformationMethod.getInstance()
-            toggleButton.setImageResource(R.drawable.eye_on)
+            toggleButton.setImageResource(R.drawable.ic_eye_on)
         }
         editText.setSelection(editText.text.length) // Keep cursor at the end
     }
-
 }

@@ -1,46 +1,40 @@
 package com.example.pertamax.ui.dashboard
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.pertamax.databinding.FragmentDashboardBinding
-import com.example.pertamax.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.pertamax.R
+import com.example.pertamax.databinding.ActivityDashboardBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.text.method.PasswordTransformationMethod
 
-class DashboardFragment : Fragment() {
+class DashboardActivity : AppCompatActivity() {
 
-    private var _binding: FragmentDashboardBinding? = null
-    private val binding get() = _binding!!
-
+    private lateinit var binding: ActivityDashboardBinding
     private lateinit var dashboardViewModel: DashboardViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Inflate layout using ViewBinding
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Setup ViewModel
         dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val editTxt = view.findViewById<EditText>(R.id.editTextLoginPassword)
-        val toggleBtn = view.findViewById<ImageView>(R.id.imageViewTogglePassword)
 
         // Handle Toggle Button
+        val editTxt = binding.editTextLoginPassword
+        val toggleBtn = binding.imageViewTogglePassword
+
         toggleBtn.setOnClickListener {
             onToggleBtnClick(editTxt, toggleBtn)
         }
+
         // Handle Button Click
         binding.buttonLogin.setOnClickListener {
             onLoginBtnClick(it)
@@ -53,14 +47,14 @@ class DashboardFragment : Fragment() {
 
         if (password.isEmpty()) {
             inputPassword.error = "Password cannot be empty"
-            Toast.makeText(requireContext(), "Password is required!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Password is required!", Toast.LENGTH_SHORT).show()
         } else {
             // Show success message
-            Toast.makeText(requireContext(), "Password Entered!, $password", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Password Entered! $password", Toast.LENGTH_SHORT).show()
 
-            // Switch tab to Notifications
-            val bottomNavView = requireActivity().findViewById<BottomNavigationView>(R.id.nav_view)
-            bottomNavView.selectedItemId = R.id.navigation_notifications
+            // Switch tab to Notifications (if BottomNavigationView exists)
+            val bottomNavView = findViewById<BottomNavigationView>(R.id.nav_view)
+            bottomNavView?.selectedItemId = R.id.navigation_notifications
 
             // Clear input field after switching
             inputPassword.text.clear()
@@ -70,20 +64,15 @@ class DashboardFragment : Fragment() {
     private fun onToggleBtnClick(editText: EditText, toggleButton: ImageView) {
         if (editText.transformationMethod is PasswordTransformationMethod) {
             // Show password
-            Toast.makeText(requireContext(), "SHOW PASSWORD", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "SHOW PASSWORD", Toast.LENGTH_SHORT).show()
             editText.transformationMethod = null
             toggleButton.setImageResource(R.drawable.ic_eye_off)
         } else {
             // Hide password
-            Toast.makeText(requireContext(), "HIDE", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "HIDE", Toast.LENGTH_SHORT).show()
             editText.transformationMethod = PasswordTransformationMethod.getInstance()
             toggleButton.setImageResource(R.drawable.ic_eye_on)
         }
         editText.setSelection(editText.text.length) // Keep cursor at the end
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

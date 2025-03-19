@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.pertamax.MainActivity
 import com.example.pertamax.R
 import com.example.pertamax.databinding.FragmentHomeBinding
 
@@ -22,6 +23,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Show Bottom Navigation and Action Bar
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -46,7 +48,7 @@ class HomeFragment : Fragment() {
         val adapter = IconAdapter(icons)
         binding.iconRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3) // 3 Columns
         binding.iconRecyclerView.adapter = adapter
-        binding.iconRecyclerView.addItemDecoration(GridSpacingItemDecoration(128,16))
+        binding.iconRecyclerView.addItemDecoration(GridSpacingItemDecoration(48,32))
 
         return root
     }

@@ -14,7 +14,7 @@ object AlertUtils {
     fun showErrorDialog(context: Context, message: String) {
         val builder = AlertDialog.Builder(context)
         val inflater = LayoutInflater.from(context)
-        val dialogView = inflater.inflate(R.layout.alert_custom, null)
+        val dialogView = inflater.inflate(R.layout.alert_error, null)
 
         // Set and message dynamically
         dialogView.findViewById<TextView>(R.id.textViewAlertMessage).text = message

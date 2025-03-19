@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:background="@drawable/alert_background"
+    android:background="@drawable/bg_alert_err"
     android:orientation="horizontal"
     android:layout_alignParentStart="true"
     android:gravity="top">
@@ -12,7 +12,7 @@
         android:id="@+id/imageViewCloseAlert"
         android:layout_width="12dp"
         android:layout_height="12dp"
-        android:src="@drawable/cross"
+        android:src="@drawable/ic_cross"
         android:contentDescription="Error Icon"/>
 
     <TextView

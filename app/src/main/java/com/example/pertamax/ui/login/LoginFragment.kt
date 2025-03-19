@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.core.widget.addTextChangedListener
-import androidx.navigation.fragment.findNavController
 import com.example.pertamax.R
 import com.example.pertamax.utils.AlertUtils
 
@@ -52,7 +51,7 @@ class LoginFragment : Fragment() {
             AlertUtils.showErrorDialog(requireContext(), "Password tidak sesuai, silakan dicoba kembali.")
         } else {
             // Navigate to HomeFragment after login
-            findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
+//            findNavController().navigate(R.id.action_loginFragment_to_navigation_home)
             inputPassword?.text?.clear()
         }
     }

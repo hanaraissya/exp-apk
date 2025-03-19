@@ -10,7 +10,6 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.pertamax.R
 
 class SplashFragment : Fragment() {
@@ -44,11 +43,11 @@ class SplashFragment : Fragment() {
         }, logoOnlyDuration)
 
         // Move to LoginFragment after 3 seconds
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (isAdded && findNavController().currentDestination?.id == R.id.splashFragment) {
-                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-            }
-        }, splashDuration)
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            if (isAdded && findNavController().currentDestination?.id == R.id.splashFragment) {
+//                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+//            }
+//        }, splashDuration)
     }
 
     private fun startRotatingAnimation(view: View) {

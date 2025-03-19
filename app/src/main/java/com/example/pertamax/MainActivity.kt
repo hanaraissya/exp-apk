@@ -1,24 +1,24 @@
 package com.example.pertamax
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.pertamax.databinding.ActivityMainBinding
+import com.example.pertamax.ui.login.LoginActivity
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var toolbar: View
-    private var isFirstLaunch = true // Prevents unnecessary re-navigation to SplashFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,17 +33,15 @@ class MainActivity : AppCompatActivity() {
 
     /** Initialize Navigation Components */
     private fun setupNavigation() {
-        navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        navController = navHostFragment.navController
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(R.id.navigation_home, R.id.navigation_notifications, R.id.navigation_dashboard)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
-
-        if (isFirstLaunch) {
-            isFirstLaunch = false
-            navController.navigate(R.id.splashFragment)
-        }
 
         binding.navView.setOnItemSelectedListener { item ->
             if (item.itemId == R.id.navigation_logout) {
@@ -57,9 +55,12 @@ class MainActivity : AppCompatActivity() {
 
     /** Setup Toolbar & QR Code Click Listener */
     private fun setupToolbar() {
-        toolbar = findViewById(R.id.home_toolbar)
+        toolbar = findViewById(R.id.toolbar_home)
         val qrIcon = toolbar.findViewById<ImageView>(R.id.toolbar_qr_icon)
-        qrIcon.setOnClickListener { navController.navigate(R.id.loginFragment) }
+        qrIcon.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
     }
 
     /** Show or Hide Bottom Nav & Toolbar based on the current destination */
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             if (shouldShowNavBar) {
+                supportActionBar?.hide()
                 showToolbar(true)
                 showBottomNav()
             } else {
@@ -86,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             override fun handleOnBackPressed() {
                 val currentDestination = navController.currentDestination?.id
                 val nonBackPressFragments = setOf(
-                    R.id.loginFragment, R.id.navigation_home,
+                    R.id.navigation_home,
                     R.id.navigation_dashboard, R.id.navigation_notifications
                 )
 
@@ -110,18 +112,12 @@ class MainActivity : AppCompatActivity() {
     /** Handle Logout Process */
     private fun performLogout() {
         clearUserSession()
-        navigateAndClearBackStack(R.id.loginFragment)
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
     private fun clearUserSession() {
         getSharedPreferences("user_prefs", MODE_PRIVATE).edit().clear().apply()
-    }
-
-    private fun navigateAndClearBackStack(destinationId: Int) {
-        val navOptions = NavOptions.Builder()
-            .setPopUpTo(R.id.mobile_navigation, true) // Clears back stack
-            .build()
-        navController.navigate(destinationId, null, navOptions)
     }
 
     /** Show/Hide Bottom Navigation & Toolbar */

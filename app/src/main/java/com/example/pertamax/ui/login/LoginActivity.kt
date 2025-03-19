@@ -9,8 +9,8 @@ import androidx.core.widget.addTextChangedListener
 import com.example.pertamax.R
 import com.example.pertamax.utils.AlertUtils
 import android.content.Intent
-import com.example.pertamax.ui.home.HomeActivity
 import android.text.method.PasswordTransformationMethod
+import com.example.pertamax.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -45,10 +45,11 @@ class LoginActivity : AppCompatActivity() {
         if (password == "123456") {
             AlertUtils.showErrorDialog(this, "Password tidak sesuai, silakan dicoba kembali.")
         } else {
+            inputPassword?.text?.clear()
             // Navigate to HomeActivity after login
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            finish() // Close LoginActivity so the user can't go back to it
         }
     }
 

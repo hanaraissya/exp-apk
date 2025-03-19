@@ -3,37 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/splashFragment">
-
-    <!-- Splash Fragment (Should not be inside BottomNavigationView) -->
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.example.pertamax.ui.splashscreen.SplashFragment"
-        android:label="SplashScreen"
-        tools:layout="@layout/fragment_splash" >
-        <action
-            android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-
-    <!-- Login Fragment (Should not be inside BottomNavigationView) -->
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.pertamax.ui.login.LoginFragment"
-        android:label="SSO"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.pertamax.ui.dashboard.DashboardFragment"
-        android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -42,18 +12,15 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.pertamax.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.pertamax.ui.notifications.NotificationsFragment"
         android:label="Notifikasi"
         tools:layout="@layout/fragment_notifications" />
 
-    <fragment
-        android:id="@+id/navigation_logout"
-        android:name="com.example.pertamax.ui.login.LoginFragment"
-        android:label="Logout"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
 </navigation>
